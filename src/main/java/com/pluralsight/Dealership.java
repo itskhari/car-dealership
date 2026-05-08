@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Dealership {
     private String name, address, phone;
-    private ArrayList<Vehicle> inventory;
+    private List<Vehicle> inventory;
     // you did this because every dealership would need an inventory list; it would need to be a field.
 
 // constructor
@@ -61,6 +61,9 @@ public class Dealership {
     }
     public List<Vehicle> getVehiclesByType (String vehicleType) {
         return null;
+    }
+    public List<Vehicle> getAllVehicles() {
+        return this.inventory;
     }
     public void addVehicle(Vehicle newVehicle) {
         inventory.add(newVehicle);
