@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class UserInterface {
     private Dealership dealership;
+    private DealershipFileManager fileManager = new DealershipFileManager();
 
     Scanner sc = new Scanner(System.in);
 
@@ -33,33 +34,34 @@ public class UserInterface {
 
             switch (choice) {
                 case "1":
-                    processAllVehicleRequst();
+                    processAllVehicleRequest();
                     break;
-//                case "2":
-//                    processGetByPriceRequest();
-//                    break;
-//                case "3":
-//                    processGetByMakeModelRequest();
-//                    break;
-//                case "4":
-//                    processGetByYearRequest();
-//                    break;
-//                case "5":
-//                    processGetByColorRequest();
-//                    break;
-//                case "6":
-//                    processGetByMileageRequest();
-//                    break;
-//                case "7":
-//                    processGetByType();
-//                    break;
-//                case "8":
-//                    processAddVehiclesRequest();
-//                    break;
-//                case "9":
-//                    processRemoveVehiclesRequest();
-//                    break;                                    doesn't have to be used yet but made just in case.
+                case "2":
+                    processGetByPriceRequest();
+                    break;
+                case "3":
+                    processGetByMakeModelRequest();
+                    break;
+                case "4":
+                    processGetByYearRequest();
+                    break;
+                case "5":
+                    processGetByColorRequest();
+                    break;
+                case "6":
+                    processGetByMileageRequest();
+                    break;
+                case "7":
+                    processGetByTypeRequest();
+                    break;
+                case "8":
+                    processAddVehiclesRequest();
+                    break;
+                case "9":
+                    processRemoveVehiclesRequest();
+                    break;
                 case "0":
+                    System.out.println("Exiting...");
                     run = false;
                     break;
                 default:
@@ -71,17 +73,114 @@ public class UserInterface {
 
     // methods
     private void init() {
-        DealershipFileManager dfm = new DealershipFileManager();  // dfm stands for dealership file manager.
-        this.dealership = dfm.getDealership();
+        DealershipFileManager fileManager = new DealershipFileManager();
+        // dfm stands for dealership file manager ; changed from dfm to file manager (static vs local variable)
+        this.dealership = fileManager.getDealership();
     }
     private void displayVehicles(List<Vehicle> inventory) {
         for (Vehicle newVehicle : inventory) {
             System.out.println(newVehicle);
         }
     }
-    private void processAllVehicleRequst() {
+    private void processAllVehicleRequest() {
         List<Vehicle> inventory = dealership.getAllVehicles();
         displayVehicles(inventory);
     }
+    public void processGetByPriceRequest() {
+    System.out.print("Enter minimum price: ");
+    double min = Double.parseDouble(sc.nextLine());
 
+    System.out.print("Enter maximum price: ");
+    double max = Double.parseDouble(sc.nextLine());
+
+    List<Vehicle> results = dealership.getVehiclesByPrice(min, max);
+    displayVehicles(results);
+    }
+    public void processGetByMakeModelRequest() {
+        System.out.print("Enter make: ");
+        String make = sc.nextLine();
+
+        System.out.print("Enter model: ");
+        String model = sc.nextLine();
+
+        List<Vehicle> results = dealership.getVehiclesByMakeModel(make, model);
+        displayVehicles(results);
+    }
+    public void processGetByYearRequest() {
+        System.out.print("Enter minimum year: ");
+        int min = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter maximum year: ");
+        int max = Integer.parseInt(sc.nextLine());
+
+        List<Vehicle> results = dealership.getVehiclesByYear(min, max);
+        displayVehicles(results);
+    }
+    public void processGetByColorRequest() {
+        System.out.print("Enter color: ");
+        String color = sc.nextLine();
+
+        List<Vehicle> results = dealership.getVehiclesByColor(color);
+        displayVehicles(results);
+    }
+    public void processGetByMileageRequest() {
+        System.out.print("Enter minimum mileage: ");
+        int min = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter maximum mileage: ");
+        int max = Integer.parseInt(sc.nextLine());
+
+        List<Vehicle> results = dealership.getVehiclesByMileage(min, max);
+        displayVehicles(results);
+    }
+    public void processGetByTypeRequest() {
+        System.out.print("Enter vehicle type (Car, Truck, SUV, etc.): ");
+        String type = sc.nextLine();
+
+        List<Vehicle> results = dealership.getVehiclesByType(type);
+        displayVehicles(results);
+    }
+    public void processAddVehiclesRequest() {
+        System.out.print("Enter make: ");
+        String make = sc.nextLine();
+
+        System.out.print("Enter model: ");
+        String model = sc.nextLine();
+
+        System.out.print("Enter color: ");
+        String color = sc.nextLine();
+
+        System.out.print("Enter vehicle type: ");
+        String type = sc.nextLine();
+
+        System.out.print("Enter year: ");
+        int year = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter VIN: ");
+        int vin = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter odometer: ");
+        int odometer = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter price: ");
+        double price = Double.parseDouble(sc.nextLine());
+
+        Vehicle newVehicle = new Vehicle(
+                make, model, color, type, year, vin, odometer, price
+        );
+
+        dealership.addVehicle(newVehicle);
+        fileManager.saveDealership(dealership);
+
+        System.out.println("Vehicle added successfully!");
+    }
+    public void processRemoveVehiclesRequest() {
+        System.out.print("Enter VIN of vehicle to remove: ");
+        int vin = Integer.parseInt(sc.nextLine());
+
+        dealership.removeVehicle(vin);
+        fileManager.saveDealership(dealership);
+
+        System.out.println("Vehicle removed successfully!");
+    }
 }

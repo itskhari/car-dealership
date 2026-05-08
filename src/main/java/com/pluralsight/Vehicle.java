@@ -16,7 +16,21 @@ public class Vehicle {
         this.odometer = odometer;
         this.price = price;
     }
-// getter and setters
+
+    @Override
+    public String toString() {
+        return  "{Make: " + make + '\'' +
+                ", Model: " + model + '\'' +
+                ", Color: " + color + '\'' +
+                ", Type: " + vehicleType + '\'' +
+                ", Year: " + year +
+                ", VIN #: " + vin +
+                ", Odometer: " + odometer +
+                ", Price: " + price +
+                '}';
+    }
+
+    // getter and setters
     public String getMake() {
         return make;
     }

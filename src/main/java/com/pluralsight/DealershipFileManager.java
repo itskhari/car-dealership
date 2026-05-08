@@ -1,8 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class DealershipFileManager {
 
@@ -11,7 +9,7 @@ public class DealershipFileManager {
         Dealership dealership = null;
 
         try {
-            FileReader reader = new FileReader("inventory.csv");
+            FileReader reader = new FileReader("src/main/resources/inventory.csv");
             BufferedReader bufReader = new BufferedReader(reader);
 
             String firstline = bufReader.readLine();
@@ -45,6 +43,34 @@ public class DealershipFileManager {
     }
 
     public void saveDealership(Dealership dealership) {
+
+        try (
+                FileWriter writer = new FileWriter("inventory.csv");
+                BufferedWriter bufWriter = new BufferedWriter(writer)
+        ) {
+            bufWriter.write(dealership.getName() + "," +
+                    dealership.getAddress() + "," +
+                    dealership.getPhone());
+            bufWriter.newLine();
+
+            // Write each vehicle
+            for (Vehicle newVehicle : dealership.getAllVehicles()) {
+                bufWriter.write(
+                        newVehicle.getMake() + "," +
+                                newVehicle.getModel() + "," +
+                                newVehicle.getColor() + "," +
+                                newVehicle.getVehicleType() + "," +
+                                newVehicle.getYear() + "," +
+                                newVehicle.getVin() + "," +
+                                newVehicle.getOdometer() + "," +
+                                newVehicle.getPrice()
+                );
+                bufWriter.newLine();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error saving dealership");
+        }
 
     }
 }
