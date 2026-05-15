@@ -2,7 +2,7 @@ package com.pluralsight;
 
 public abstract class Contract {
     protected String date, name, email;
-    protected Vehicle vehicle;
+    public Vehicle vehicle;
 
     // parent constructor
 

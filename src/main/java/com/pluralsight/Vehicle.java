@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.util.List;
+
 public class Vehicle {
     private String make, model, color, vehicleType;
     private int year, vin, odometer;

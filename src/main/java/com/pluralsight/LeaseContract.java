@@ -4,7 +4,7 @@ public class LeaseContract extends Contract {
 
     private double expectedEndingValue, leaseFee;
 
-    public LeaseContract(String date, String name, String email, Vehicle vehicle, double expectedEndingValue, double leaseFee) {
+    public LeaseContract(String date, String name, String email, Vehicle vehicle) {
         super(date, name, email, vehicle);
         this.expectedEndingValue = vehicle.getPrice() * 0.50;
         this.leaseFee = vehicle.getPrice() * 0.07;
